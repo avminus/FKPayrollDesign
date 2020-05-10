@@ -69,6 +69,7 @@ public class FKPayrollDesign{
 				System.out.println("Employee record deleted successfully!");
 
 	}
+	
 	static void submittimecard(ArrayList<EmployeeInterface> dblist){
 			System.out.println("Enter the employee ID you want to give timecard for");
 			Scanner sc = new Scanner(System.in);
