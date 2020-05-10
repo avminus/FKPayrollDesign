@@ -67,10 +67,35 @@ public class FKPayrollDesign{
 				System.out.println("Employee ID not found");
 			else
 				System.out.println("Employee record deleted successfully!");
+
 	}
-	static void submittimecard(){
-		// System.out.println()
+	static void submittimecard(ArrayList<EmployeeInterface> dblist){
+			System.out.println("Enter the employee ID you want to give timecard for");
+			Scanner sc = new Scanner(System.in);
+			int temp  = sc.nextInt();
+			int count =0;
+			EmployeeInterface temphourlyobj=null;
+			for(EmployeeInterface obj: dblist){
+				if(obj.getID()==temp){
+					count++;
+					temphourlyobj = obj;
+					break;
+				}
+			}
+			if(count==0 || temphourlyobj instanceof MonthlyEmployee){
+					System.out.println("Invalid employee ID!!");
+			}
+			else{
+				dblist.remove(temphourlyobj);
+				System.out.println("Enter the hours worked by the employee i.e. the timecard details: ");
+				double hourly = sc.nextDouble();
+				HourlyEmployee dummyhourlyobj = (HourlyEmployee) temphourlyobj;
+				dummyhourlyobj.submitCards(hourly);
+				dblist.add(temphourlyobj);
+				System.out.println("Time Card successfully submitted!");
+			}
 	}
+
 	public static void main(String args[]){
 		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
 		
@@ -93,5 +118,10 @@ public class FKPayrollDesign{
 			deleteemployee(dblist);
 		}
 
+		System.out.println("Do you want to enter a timecard for an Hourly employee? Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			submittimecard(dblist);
+		}
 	}
 }

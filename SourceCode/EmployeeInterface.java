@@ -96,17 +96,17 @@ class HourlyEmployee implements EmployeeInterface{
 		}
 
 		//Methods
-		void sethourlyrate(double newRate){				//Mutator method to change the normal hourly rates
+		public void sethourlyrate(double newRate){				//Mutator method to change the normal hourly rates
 			this.hourlyrate = newRate;
 			this.overtimerate = (this.multiplier)*(this.hourlyrate);
 		}
 
-		void setmultiplier(double newMulitplier){		//Mutator method to change the multiplier for overtime hours
+		public void setmultiplier(double newMulitplier){		//Mutator method to change the multiplier for overtime hours
 			this.multiplier = newMulitplier;
 			this.overtimerate = (this.hourlyrate)*(this.multiplier);
 		}
 		
-		void submitCards(double todayHours){		//Method to submit time cards
+		public void submitCards(double todayHours){		//Method to submit time cards
 			BigDecimal temp = BigDecimal.valueOf(todayHours);
 			BigDecimal limit = new BigDecimal("8.0");
 			if(temp.compareTo(limit)<=0){
@@ -181,15 +181,15 @@ class MonthlyEmployee implements EmployeeInterface{
 	}
 
 	//Methods
-	void setMonthlySalary(double newSalary){		
+	public void setMonthlySalary(double newSalary){		
 		this.monthlysalary = newSalary;
 	}
 	
-	void setComRate(double newRate){
+	public void setComRate(double newRate){
 		this.comissionrate = newRate;
 	}
 
-	void submitSales(double newSales){
+	public void submitSales(double newSales){
 		this.accruedsales += newSales;
 	}
 
@@ -200,10 +200,10 @@ class MonthlyEmployee implements EmployeeInterface{
 	public int getID(){
 		return this.EmployeeID;
 	}
-	double getmonthlysalary(){
+	public double getmonthlysalary(){
 		return this.monthlysalary;
 	}
-	double getSalesCom(){
+	public double getSalesCom(){
 		return this.accruedsales*this.comissionrate;
 	}
 
