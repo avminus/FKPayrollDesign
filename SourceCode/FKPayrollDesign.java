@@ -72,7 +72,6 @@ public class FKPayrollDesign{
 			addemployee(dblist);
 			System.out.println("Added an employee successfully");	
 		}
-		DBOperations.display(dblist);
 		// System.out.println("Do you want to delete an employee? Press 1 for Yes and 0 for No!");		
 	}
 }
