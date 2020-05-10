@@ -51,27 +51,47 @@ public class FKPayrollDesign{
 			dblist.add(impobj);
 	}
 
-	static void deleteemployee(){
-
+	static void deleteemployee(ArrayList<EmployeeInterface> dblist){
+			System.out.println("Enter the employee ID you want to delete");
+			Scanner sc = new Scanner(System.in);
+			int temp  = sc.nextInt();
+			int count =0;
+			for(EmployeeInterface obj: dblist){
+				if(obj.getID()==temp){
+					count++;
+					dblist.remove(obj);
+					break;
+				}
+			}
+			if(count==0)
+				System.out.println("Employee ID not found");
+			else
+				System.out.println("Employee record deleted successfully!");
 	}
-
 	static void submittimecard(){
 		// System.out.println()
 	}
 	public static void main(String args[]){
-
+		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
+		
 		System.out.println("Do you want to add Employees?: Enter 1 for Yes and 0 for No!");
 
 		Scanner sc  = new Scanner(System.in);
 
 		int temp = sc.nextInt();
 
-		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
 
 		if(temp==1){
 			addemployee(dblist);
 			System.out.println("Added an employee successfully");	
 		}
-		// System.out.println("Do you want to delete an employee? Press 1 for Yes and 0 for No!");		
+
+
+		System.out.println("Do you want to delete an employee? Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			deleteemployee(dblist);
+		}
+
 	}
 }

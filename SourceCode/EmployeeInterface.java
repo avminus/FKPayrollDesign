@@ -49,6 +49,8 @@ public interface EmployeeInterface{
 	
 	void setMOP(MOP tempMOP);
 	
+	int getID();
+
 	void setWeeklyDue(double tempweeklyDue);
 
 	void submitMembership(double weeklydue);
@@ -128,6 +130,9 @@ class HourlyEmployee implements EmployeeInterface{
 			this.valueMOP = tempMOP;
 		}
 		
+		public int getID(){
+			return 	this.EmployeeID;
+		}
 		public void setWeeklyDue(double tempweeklyDue){	//Weekly due rate
 			FirstUnion temp  =  (FirstUnion)unionobj;
 			temp.setweeklydue(tempweeklyDue);
@@ -192,6 +197,12 @@ class MonthlyEmployee implements EmployeeInterface{
 		return monthlysalary;
 	}
 
+	public int getID(){
+		return this.EmployeeID;
+	}
+	double getmonthlysalary(){
+		return this.monthlysalary;
+	}
 	double getSalesCom(){
 		return this.accruedsales*this.comissionrate;
 	}
