@@ -35,7 +35,9 @@ class FirstUnion implements UnionInterface{
 	public void setweeklydue(double newDue){
 		this.weeklydue = newDue;
 	}
-
+	public void reset(){
+		this.servicecharge=0;
+	}
 	public void addservicecharge(double newServiceCharge){
 		this.servicecharge += newServiceCharge;
 	}
@@ -94,7 +96,10 @@ class HourlyEmployee implements EmployeeInterface{
 			this.unionobj = unionobj;
 			this.lastpaid = daty;
 		}
-
+		public void reset(){
+			this.normalhour=0;
+			this.overtimehour=0;
+		}
 		//Methods
 		public void sethourlyrate(double newRate){				//Mutator method to change the normal hourly rates
 			this.hourlyrate = newRate;
@@ -137,7 +142,9 @@ class HourlyEmployee implements EmployeeInterface{
 		public UnionInterface getunionobj(){
 			return this.unionobj;
 		}
-
+		public void setlastpaid(LocalDate variable){
+			this.lastpaid = variable;
+		}
 		public void setWeeklyDue(double tempweeklyDue){	//Weekly due rate
 			FirstUnion temp  =  (FirstUnion)unionobj;
 			temp.setweeklydue(tempweeklyDue);
@@ -193,7 +200,9 @@ class MonthlyEmployee implements EmployeeInterface{
 	public void setComRate(double newRate){
 		this.comissionrate = newRate;
 	}
-
+	public LocalDate getlastpaid(){
+		return this.lastpaid;
+	}
 	public void submitSales(double newSales){
 		this.accruedsales += newSales;
 	}
@@ -220,11 +229,15 @@ class MonthlyEmployee implements EmployeeInterface{
 	public double getuniondues(){
 		return 	this.unionobj.getdues();
 	}
-	
+	public void setlastpaid(LocalDate variable){
+		this.lastpaid = variable;
+	}
 	public void setMOP(MOP tempMOP){
 			this.valueMOP = tempMOP;
 	}
-		
+	public void reset(){
+		this.accruedsales =0;
+	}	
 	public void setWeeklyDue(double tempweeklyDue){	//Weekly due rate
 			FirstUnion temp  =  (FirstUnion)unionobj;
 			temp.setweeklydue(tempweeklyDue);

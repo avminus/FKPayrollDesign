@@ -2,6 +2,7 @@ package trainingproject;
 
 import java.util.*;
 import java.time.*;
+import java.math.*;
 
 public class FKPayrollDesign{
  	static void addemployee(ArrayList<EmployeeInterface> dblist){
@@ -278,10 +279,46 @@ public class FKPayrollDesign{
 			}
 	}
 
-	// static void runpayroll(ArrayList<EmployeeInterface> dblist){	
-	// 		LocalDate today = LocalDate.now();
-	// 		if()	
-	// }
+	static void runpayroll(ArrayList<EmployeeInterface> dblist){	
+			LocalDate today = LocalDate.now();
+			if(today.getDayOfWeek()==DayOfWeek.FRIDAY){
+				for(EmployeeInterface obj: dblist){
+					if(obj instanceof HourlyEmployee){
+						HourlyEmployee temphourly = (HourlyEmployee) obj;
+						double totalpayable = BigDecimal.valueOf(temphourly.getsalary()).subtract(BigDecimal.valueOf(temphourly.getuniondues())).doubleValue();
+						temphourly.reset();
+						if(temphourly.getunionobj() instanceof FirstUnion){
+							FirstUnion dummyunion = (FirstUnion)temphourly.getunionobj();
+							dummyunion.reset();
+						}
+						System.out.println("The Weekly Payment for EmployeeID: " + temphourly.getID()+" of Hourly waged salary is done of amount :"+ totalpayable+"  !");
+						temphourly.setlastpaid(today);
+					}
+					else if (obj instanceof MonthlyEmployee){
+						MonthlyEmployee tempmonthly = (MonthlyEmployee)	obj;
+						Period intervalPeriod = Period.between(tempmonthly.getlastpaid(),today);
+						if(intervalPeriod.getDays()>=14){
+							double totalpayable = BigDecimal.valueOf(tempmonthly.getSalesCom()).subtract(BigDecimal.valueOf(tempmonthly.getuniondues())).doubleValue();
+							tempmonthly.reset();
+							if(tempmonthly.getunionobj() instanceof FirstUnion){
+								((FirstUnion)tempmonthly.getunionobj()).reset();
+							}
+							System.out.println("The biweekly payment of Monthly sales comission deducted by union bills for EmployeeId: "+tempmonthly.getID()+" is paid for amount: " + totalpayable+ "   !");
+							tempmonthly.setlastpaid(today);
+						}
+					}
+				}
+			}
+
+			if(today.getDayOfMonth()==28){
+				for(EmployeeInterface obj: dblist){
+					if(obj instanceof MonthlyEmployee){
+						MonthlyEmployee tempmonthly = (MonthlyEmployee)obj;
+						System.out.println("The monthly payemnt of Monthly salaried Employee for EmployeeId: "+tempmonthly.getID()+"for amount of : "+tempmonthly.getmonthlysalary()+"  !");
+					}
+				}
+			}	
+	}
 
 	public static void main(String args[]){
 		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
@@ -335,6 +372,11 @@ public class FKPayrollDesign{
 			editemployeedata(dblist);
 		}
 
-		// runpayroll();
+		System.out.println("Do you want to run the payroll for today and payout?  Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			runpayroll(dblist);
+		}
+		
 	}
 }
