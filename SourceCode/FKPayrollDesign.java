@@ -123,6 +123,39 @@ public class FKPayrollDesign{
 				System.out.println("Sales Reciept successfully submitted!");
 			}
 	}
+	
+	static void postmembership(ArrayList<EmployeeInterface> dblist){
+			System.out.println("Enter the employee ID you want to post membership for");
+			Scanner sc = new Scanner(System.in);
+			int temp  = sc.nextInt();
+			int count =0;
+			EmployeeInterface tempcommon=null;
+			for(EmployeeInterface obj: dblist){
+				if(obj.getID()==temp){
+					count++;
+					tempcommon = obj;
+					break;
+				}
+			}
+			if(count==0){
+					System.out.println("Invalid employee ID!!");
+			}
+			else{
+				dblist.remove(tempcommon);
+				System.out.println("Enter the amount of membership charge for the employee: ");
+				double membershipcharge = sc.nextDouble();
+				if(tempcommon instanceof MonthlyEmployee){
+					MonthlyEmployee newmonthly = (MonthlyEmployee) tempcommon;
+					newmonthly.submitMembership(membershipcharge);
+				}
+				else{
+					HourlyEmployee newhourly = (HourlyEmployee) tempcommon;
+					newhourly.submitMembership(membershipcharge);
+				}
+				dblist.add(tempcommon);
+				System.out.println("Membership successfully posted!");
+			}
+	}
 
 	public static void main(String args[]){
 		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
@@ -161,8 +194,13 @@ public class FKPayrollDesign{
 		System.out.println("Do you want to post a Union Membership for an employee? Press 1 for Yes and 0 for No!");		
 		temp = sc.nextInt();
 		if(temp==1){
-			submitsales(dblist);
+			postmembership(dblist);
 		}
 
+		// System.out.println("Do you want to post any type of Service Charge (like festive charges etc.) for an employee? Press 1 for Yes and 0 for No!");		
+		// temp = sc.nextInt();
+		// if(temp==1){
+		// 	postservicecharge(dblist);
+		// }
 	}
 }
