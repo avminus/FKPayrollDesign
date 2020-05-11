@@ -198,6 +198,91 @@ public class FKPayrollDesign{
 			}
 	}
 
+	static void editemployeedata(ArrayList<EmployeeInterface> dblist){
+			System.out.println("Enter the employee ID you want to edit for");
+			Scanner sc = new Scanner(System.in);
+			int temp  = sc.nextInt();
+			int count =0;
+			EmployeeInterface tempcommon=null;
+			for(EmployeeInterface obj: dblist){
+				if(obj.getID()==temp){
+					count++;
+					tempcommon = obj;
+					break;
+				}
+			}
+			if(count==0){
+					System.out.println("Invalid employee ID!!");
+			}
+			else{
+					dblist.remove(tempcommon);
+					if(tempcommon instanceof MonthlyEmployee){
+						System.out.println("Do you want to edit the monthly salary of the Employee?  Press 1 for Yes and 0 for No!");
+						int decision = sc.nextInt();
+						if(decision==1){
+							System.out.println("Enter the new monthly salary.");
+							double changedsalary = sc.nextDouble();
+							MonthlyEmployee newmonthly = (MonthlyEmployee) tempcommon;
+							newmonthly.setMonthlySalary(changedsalary);
+						}
+						
+						System.out.println("Do you want to edit the sales comission rate of the Employee?  Press 1 for Yes and 0 for No!");
+						decision = sc.nextInt();
+						if(decision==1){
+							System.out.println("Enter the new comission rate.");
+							double changedrate = sc.nextDouble();
+							MonthlyEmployee newmonthly = (MonthlyEmployee) tempcommon;
+							newmonthly.setComRate(changedrate);
+						}
+
+						System.out.println("Do you want to edit the weekly duer rate of the Employee regarding the union?  Press 1 for Yes and 0 for No!");
+						decision = sc.nextInt();
+						if(decision==1){
+							System.out.println("Enter the new weekly due rate for the union.");
+							double changedduerate = sc.nextDouble();
+							MonthlyEmployee newmonthly = (MonthlyEmployee) tempcommon;
+							if(newmonthly.getunionobj() instanceof NoneUnion){
+								System.out.println("Employee needs to be a member of union before changin due rate.");
+								return;
+							}
+							newmonthly.setWeeklyDue(changedduerate);
+						}
+
+
+					}
+					else{
+						System.out.println("Do you want to edit the hourly rate of the Employee?  Press 1 for Yes and 0 for No!");
+						int decision = sc.nextInt();
+						if(decision==1){
+							System.out.println("Enter the new hourly rate.");
+							double hourlyrates = sc.nextDouble();
+							HourlyEmployee newhourly = (HourlyEmployee) tempcommon;
+							newhourly.sethourlyrate(hourlyrates);
+						}
+
+						System.out.println("Do you want to edit the weekly duer rate of the Employee regarding the union?  Press 1 for Yes and 0 for No!");
+						decision = sc.nextInt();
+						if(decision==1){
+							System.out.println("Enter the new weekly due rate for the union.");
+							double changedduerate = sc.nextDouble();
+							HourlyEmployee newhourly = (HourlyEmployee) tempcommon;
+							if(newhourly.getunionobj() instanceof NoneUnion){
+								System.out.println("Employee needs to be a member of union before changin due rate.");
+								return;
+							}
+							newhourly.setWeeklyDue(changedduerate);
+						}
+					}
+					dblist.add(tempcommon);
+					System.out.println("Employee data successfully editted!");
+			}
+	}
+
+	// static void runpayroll(ArrayList<EmployeeInterface> dblist){	
+	// 		LocalDate today = LocalDate.now();
+	// 		if()	
+	// }
+
 	public static void main(String args[]){
 		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
 		
@@ -243,5 +328,13 @@ public class FKPayrollDesign{
 		if(temp==1){
 			postservicecharge(dblist);
 		}
+
+		System.out.println("Do you want to edit details of any Employee?  Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			editemployeedata(dblist);
+		}
+
+		// runpayroll();
 	}
 }
