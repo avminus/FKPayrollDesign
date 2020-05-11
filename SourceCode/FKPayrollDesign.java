@@ -157,6 +157,47 @@ public class FKPayrollDesign{
 			}
 	}
 
+	static void postservicecharge(ArrayList<EmployeeInterface> dblist){
+			System.out.println("Enter the employee ID you want to post servicecharge for");
+			Scanner sc = new Scanner(System.in);
+			int temp  = sc.nextInt();
+			int count =0;
+			EmployeeInterface tempcommon=null;
+			for(EmployeeInterface obj: dblist){
+				if(obj.getID()==temp){
+					count++;
+					tempcommon = obj;
+					break;
+				}
+			}
+			if(count==0){
+					System.out.println("Invalid employee ID!!");
+			}
+			else{
+				dblist.remove(tempcommon);
+				System.out.println("Enter the amount of total service charge to be added for the employee: ");
+				double servicecharge = sc.nextDouble();
+				if(tempcommon instanceof MonthlyEmployee){
+					MonthlyEmployee newmonthly = (MonthlyEmployee) tempcommon;
+					if(newmonthly.getunionobj() instanceof NoneUnion){
+						System.out.println("Employee needs to be a member of union before posting service charge.");
+						return;
+					}
+					newmonthly.submitServiceCharge(servicecharge);
+				}
+				else{
+					HourlyEmployee newhourly = (HourlyEmployee) tempcommon;
+					if(newhourly.getunionobj() instanceof NoneUnion){
+						System.out.println("Employee needs to be a member of union before posting service charge.");
+						return;
+					}
+					newhourly.submitServiceCharge(servicecharge);
+				}
+				dblist.add(tempcommon);
+				System.out.println("Service Charge successfully posted!");
+			}
+	}
+
 	public static void main(String args[]){
 		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
 		
@@ -197,10 +238,10 @@ public class FKPayrollDesign{
 			postmembership(dblist);
 		}
 
-		// System.out.println("Do you want to post any type of Service Charge (like festive charges etc.) for an employee? Press 1 for Yes and 0 for No!");		
-		// temp = sc.nextInt();
-		// if(temp==1){
-		// 	postservicecharge(dblist);
-		// }
+		System.out.println("Do you want to post any type of Service Charge (like festive charges etc.) for an employee? Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			postservicecharge(dblist);
+		}
 	}
 }

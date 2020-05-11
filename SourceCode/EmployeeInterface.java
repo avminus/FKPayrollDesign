@@ -133,6 +133,11 @@ class HourlyEmployee implements EmployeeInterface{
 		public int getID(){
 			return 	this.EmployeeID;
 		}
+
+		public UnionInterface getunionobj(){
+			return this.unionobj;
+		}
+
 		public void setWeeklyDue(double tempweeklyDue){	//Weekly due rate
 			FirstUnion temp  =  (FirstUnion)unionobj;
 			temp.setweeklydue(tempweeklyDue);
@@ -203,6 +208,11 @@ class MonthlyEmployee implements EmployeeInterface{
 	public double getmonthlysalary(){
 		return this.monthlysalary;
 	}
+	
+	public UnionInterface getunionobj(){
+			return this.unionobj;
+	}
+
 	public double getSalesCom(){
 		return this.accruedsales*this.comissionrate;
 	}
