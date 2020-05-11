@@ -97,6 +97,33 @@ public class FKPayrollDesign{
 			}
 	}
 
+	static void submitsales(ArrayList<EmployeeInterface> dblist){
+			System.out.println("Enter the employee ID you want to give sales reciept for");
+			Scanner sc = new Scanner(System.in);
+			int temp  = sc.nextInt();
+			int count =0;
+			EmployeeInterface tempmonthly=null;
+			for(EmployeeInterface obj: dblist){
+				if(obj.getID()==temp){
+					count++;
+					tempmonthly = obj;
+					break;
+				}
+			}
+			if(count==0 || tempmonthly instanceof HourlyEmployee){
+					System.out.println("Invalid employee ID!!");
+			}
+			else{
+				dblist.remove(tempmonthly);
+				System.out.println("Enter the amount of sales done by the employee i.e. the sales reciept details: ");
+				double salesval = sc.nextDouble();
+				MonthlyEmployee dummymonthly = (MonthlyEmployee) tempmonthly;
+				dummymonthly.submitSales(salesval);
+				dblist.add(tempmonthly);
+				System.out.println("Sales Reciept successfully submitted!");
+			}
+	}
+
 	public static void main(String args[]){
 		ArrayList<EmployeeInterface> dblist = DBOperations.makedatabase();
 		
@@ -124,5 +151,18 @@ public class FKPayrollDesign{
 		if(temp==1){
 			submittimecard(dblist);
 		}
+
+		System.out.println("Do you want to enter a Sales Reciept for Monthly employee? Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			submitsales(dblist);
+		}
+
+		System.out.println("Do you want to post a Union Membership for an employee? Press 1 for Yes and 0 for No!");		
+		temp = sc.nextInt();
+		if(temp==1){
+			submitsales(dblist);
+		}
+
 	}
 }
